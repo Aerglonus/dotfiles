@@ -2,7 +2,13 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
 lua << END
-require("catppuccin").setup()
+require("catppuccin").setup({
+integrations = {
+    coc_nvim = true,
+    nvimtree = true,
+    treesitter = true,
+    }
+})
 require('nvim-treesitter.configs').setup{
   sync_install = false,
   ignore_install = {""},
@@ -72,7 +78,7 @@ require("nvim-tree").setup({
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'horizon',
+    theme = 'catppuccin',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
