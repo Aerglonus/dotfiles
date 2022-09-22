@@ -22,6 +22,7 @@ set nocompatible
 let g:coc_disable_startup_warning = 1
 "Plugins section
 call plug#begin()
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
