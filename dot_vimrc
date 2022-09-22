@@ -65,7 +65,8 @@ au VimLeave,VimSuspend * set guicursor=a:ver25-blinkon175
 syntax enable
 " let ayucolor="mirage"
 " colorscheme oxocarbon
-colorscheme xcode_dark
+let g:catppuccin_flavour = "mocha"
+colorscheme catppuccin
 if (has("termguicolors"))
  set termguicolors
 endif

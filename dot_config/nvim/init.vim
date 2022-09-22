@@ -2,7 +2,7 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
 lua << END
-
+require("catppuccin").setup()
 require('nvim-treesitter.configs').setup{
   sync_install = false,
   ignore_install = {""},
