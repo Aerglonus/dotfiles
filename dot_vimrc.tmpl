@@ -23,7 +23,11 @@ let g:coc_disable_startup_warning = 1
 "Plugins section
 call plug#begin()
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 Plug 'andweeb/presence.nvim'
+{{ end }}
+{{end}}
 Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
