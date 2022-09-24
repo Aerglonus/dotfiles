@@ -7,3 +7,6 @@
 .bashrc
 .tmux.conf
 {{- end}}
+{{- if ne .chezmoi.os "windows"}}
+AppData/Local/nvim/init.vim.tmpl
+{{- end}}
