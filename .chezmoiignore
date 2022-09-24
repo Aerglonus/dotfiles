@@ -1,0 +1,8 @@
+{{- if ne .chezmoi.os "linux"}}
+.config
+.imwheelrc
+.zshrc
+.zprofile
+.bashrc
+.tmux.conf
+{{- end}}
