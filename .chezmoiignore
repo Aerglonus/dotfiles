@@ -6,6 +6,7 @@
 .zprofile
 .bashrc
 .tmux.conf
+.cargo
 {{- end}}
 {{- if ne .chezmoi.os "windows"}}
 AppData
