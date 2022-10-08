@@ -32,7 +32,9 @@ Plug 'andweeb/presence.nvim'
 {{ end }}
 {{end }}
 " -------------------------------
-Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
