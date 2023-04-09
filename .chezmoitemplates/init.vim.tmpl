@@ -11,8 +11,10 @@ integrations = {
     }
 })
 require('nvim-treesitter.configs').setup{
-  sync_install = false,
+  sync_install = true,
+  ensure_installed = { "typescript", "css", "scss", "html", "json", "javascript", "toml", "yaml", "dockerfile", "tsx", "sql", "prisma", "python", "markdown_inline", "lua", "go", "bash" },
   ignore_install = {""},
+  auto_install = true,
   highlight = {
     enable = true,
     disable = {""},
@@ -23,6 +25,7 @@ require('nvim-treesitter.configs').setup{
     disable = {""}
     },
 }
+
 require("toggleterm").setup({
     size = 13,
     open_mapping= [[<c-\>]],
@@ -57,6 +60,8 @@ require("toggleterm").setup({
   },
 
 })
+
+
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
@@ -76,10 +81,46 @@ require("nvim-tree").setup({
 })
 
 
+local function open_nvim_tree(data)
+
+  -- buffer is a [No Name]
+  local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+
+  -- buffer is a directory
+  local directory = vim.fn.isdirectory(data.file) == 1
+
+  if not no_name and not directory then
+    return
+  end
+
+  -- change to the directory
+  if directory then
+    vim.cmd.cd(data.file)
+  end
+
+  -- open the tree
+  require("nvim-tree.api").tree.toggle({
+    focus = true,
+    find_file = true,
+  })
+end
+
+local function my_on_attach(bufnr)
+    local api = require('nvim-tree.api')
+
+    local function opts(desc)
+      return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+
+    api.config.mappings.default_on_attach(bufnr)
+    -- your removals and mappings go here
+    vim.keymap.set('n', '[t', api.node.open.vertical,                opts('Open: Vertical Split'))
+end
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'catppuccin',
+    theme = 'moonfly',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
@@ -127,137 +168,7 @@ function _G.set_terminal_keymaps()
   vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[[<C-\><C-n><C-W>k]], opts)
 end
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
-
-END
-{{ else if eq .chezmoi.os "windows"}}
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-source ~/.vimrc
-lua << END
-require("catppuccin").setup({
-integrations = {
-    coc_nvim = true,
-    nvimtree = true,
-    treesitter = true,
-    }
-})
-require('nvim-treesitter.configs').setup{
-  sync_install = false,
-  ignore_install = {""},
-  highlight = {
-    enable = true,
-    disable = {""},
-    additional_vim_regex_highlighting = true,
-  },
-  indent = {
-    enable = true,
-    disable = {""}
-    },
-}
-require("toggleterm").setup({
-    size = 13,
-    open_mapping= [[<c-\>]],
-    hide_numbers = true,
-    shade_filetypes = {},
-    shade_terminals = true,
-    shading_factor = 2,
-    start_in_insert = true,
-    terminal_mappings = true,
-    presist_size = true,
-    direction = 'horizontal',
-    winbar = {
-    enabled = false,
-    name_formatter = function(term) --  term: Terminal
-      return term.name
-    end
-  },
-    float_opts = {
-    -- The border key is *almost* the same as 'nvim_open_win'
-    -- see :h nvim_open_win for details on borders however
-    -- the 'curved' border is a custom border type
-    -- not natively supported but implemented in this plugin.
-    border = 'curved',
-    winblend = 0,
-    highlights = {
-     border ="Normal",
-     background = "Normal",
-    },
-    -- like `size`, width and height can be a number or function which is passed the current terminal
-    width = 100,
-    height = 13,
-  },
-
-})
-require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  view = {
-    adaptive_size = true,
-    mappings = {
-      list = {
-        { key = "u", action = "dir_up" },
-      },
-    },
-  },
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    dotfiles = true,
-  },
-})
-
-
-require('lualine').setup {
-  options = {
-    icons_enabled = true,
-    theme = 'catppuccin',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
-    disabled_filetypes = {
-      statusline = {},
-      winbar = {},
-    },
-    ignore_focus = {},
-    always_divide_middle = true,
-    globalstatus = false,
-    refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
-    }
-  },
-  sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
-    lualine_x = {'filetype'},
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  tabline = {},
-  winbar = {},
-  inactive_winbar = {},
-  extensions = {'nvim-tree'}
-}
-
-
-function _G.set_terminal_keymaps()
-  local opts = {noremap = true}
-  vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[[<C-\><C-n><C-W>h]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[[<C-\><C-n><C-W>j]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[[<C-\><C-n><C-W>k]], opts)
-end
-vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 END
 {{ end }}

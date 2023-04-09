@@ -1,14 +1,28 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+export DENO_INSTALL="/home/lonus/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+export PATH=/home/lonus/bin:$PATH
+export DOCKER_HOST=unix:///home/lonus/.docker/desktop/docker.sock
+
+
+#eval "$(oh-my-posh init zsh )"
+#export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+
+eval "$(oh-my-posh init  zsh --config ~/.poshthemes/clean-detailed.omp.json)"
+#eval "$(oh-my-posh --init --shell zsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/v$(oh-my-posh --version)/themes/catppuccin_frappe.omp.json)"
+
 export EDITOR="nvim"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
- ZSH_THEME="jovial"
+# ZSH_THEME="jovial"
 # source geometry/geometry.zsh
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -36,7 +50,6 @@ export EDITOR="nvim"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
-
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 
@@ -72,6 +85,7 @@ export EDITOR="nvim"
 # Add wisely, as too many plugins slow down shell startup.
 NVM_LAZY_LOAD=true
 plugins=(
+  jovial
   autojump
   git
   urltools
@@ -79,7 +93,6 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-history-enquirer
-  jovial
   zsh-lazyload
   nvm
 )
@@ -111,9 +124,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh
+alias l2="l --level 2"
 export SUDO_EDITOR="nvim"
 alias ko='rename.sh'
-alias docker='sudo docker'
+#alias docker='sudo docker'
 alias fnode='find . -name "node_modules" -type d -prune | xargs du -chs'
 alias rnode='find . -name "node_modules" -type d -prune -exec rm -rf '{}' +'
 alias tnew='tmux new -s'
@@ -122,6 +136,12 @@ alias vim='nvim'
 alias ls='exa -T --level=1 --icons'
 alias als='ls --color=auto'
 alias clfr='cloudflared tunnel run'
+alias gdiff='git diff | bat'
+alias glog='git log | bat'
+alias gstat='git status | bat'
+alias dockup='docker compose up -d'
+alias dockdown='docker compose down'
+alias pdev='pnpm run dev'
 #source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 #source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #export NVM_DIR="$HOME/.nvm"
@@ -136,58 +156,89 @@ alias clfr='cloudflared tunnel run'
 
 
 
-# eval "$(oh-my-posh --init --shell zsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/v$(oh-my-posh --version)/themes/spaceship.omp.json)"
 if [ -f ${HOME}/.zplug/init.zsh ]; then
     source ${HOME}/.zplug/init.zsh
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-JOVIAL_SYMBOL[arrow]='(👉ﾟヮﾟ)👉'
-JOVIAL_PALETTE[git.clean]=' ✔'
-JOVIAL_PALETTE[git.dirty]=' ✘✘✘'
-JOVIAL_SYMBOL[arrow.git-clean]='(๑˃̵ᴗ˂̵)و'
-JOVIAL_SYMBOL[arrow.git-dirty]='(ﾉ˚Д˚)ﾉ'
-JOVIAL_PALETTE=(
+#JOVIAL_SYMBOL[arrow]='(👉ﾟヮﾟ)👉'
+#JOVIAL_PALETTE[git.clean]=' ✔'
+#JOVIAL_PALETTE[git.dirty]=' ✘✘✘'
+#JOVIAL_SYMBOL[arrow.git-clean]='(๑˃̵ᴗ˂̵)و'
+#JOVIAL_SYMBOL[arrow.git-dirty]='(ﾉ˚Д˚)ﾉ'
+#JOVIAL_PALETTE=(
     # hostname
-    host '%F{2}'
+#    host '%F{2}'
 
     # common user name
-    user '%F{253}'
+#    user '%F{253}'
 
     # only root user
-    root '%B%F{203}'
+#    root '%B%F{203}'
 
     # current work dir path
-    path '%B%F{228}%}'
+#    path '%B%F{228}%}'
 
     # git status info (dirty or clean / rebase / merge / cherry-pick)
-    git '%F{159}'
+#    git '%F{159}'
 
     # virtual env activate prompt for python
-    venv '%F{159}'
+#    venv '%F{159}'
 
     # current time when prompt render, pin at end-of-line
-    time '%F{254}'
+ #   time '%F{254}'
 
     # elapsed time of last command executed
-    elapsed '%F{222}'
+  #  elapsed '%F{222}'
 
     # exit code of last command
-    exit.mark '%F{246}'
-    exit.code '%B%F{203}'
+   # exit.mark '%F{246}'
+    #exit.code '%B%F{203}'
 
     # 'conj.': short for 'conjunction', like as, at, in, on, using
-    conj. '%F{102}'
+    #conj. '%F{102}'
 
     # shell typing area pointer
-    typing '%F{252}'
+   # typing '%F{252}'
 
     # for other common case text color
-    normal '%F{252}'
+   # normal '%F{252}'
 
-    success '%F{040}'
-    error '%F{203}'
-)
+   # success '%F{040}'
+   # error '%F{203}'
+#)
+
+
+
+
+
+
+
+ # Ubuntu-specific code
+  export PATH=$PATH:/usr/local/go/bin:$PATH
+  export PATH=~/GitClones/bash-scripting:$PATH
+  export PATH=$PATH:/usr/local/go/bin
+  export ANDROID_HOME=/home/lonus/Android/Sdk
+  # terminator auto name window title
+  function precmd () {
+	   echo -ne "\033]0;$(pwd | sed -e "s;^$HOME;~;")\a"
+  }
+  export PATH=$PATH:/home/lonus/.spicetify
+
+
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+
+# pnpm
+export PNPM_HOME="/home/lonus/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
   keep_current_path(){
@@ -205,7 +256,7 @@ JOVIAL_PALETTE=(
   export PATH=~/GitClones/bash-scripting:$PATH
   export PATH=$PATH:/usr/local/go/bin
   export ANDROID_HOME=/home/lonus/Android/Sdk
-  # terminator auto name window title 
+  # terminator auto name window title
   function precmd () {
 	   echo -ne "\033]0;$(pwd | sed -e "s;^$HOME;~;")\a"
   }

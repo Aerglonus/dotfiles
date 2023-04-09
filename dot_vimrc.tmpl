@@ -19,6 +19,7 @@ set guioptions-=r  "scrollbar
 set laststatus=2
 set termguicolors
 set nocompatible
+set autochdir
 let g:coc_disable_startup_warning = 1
 "Plugins section
 call plug#begin()
@@ -31,7 +32,6 @@ Plug 'andweeb/presence.nvim'
 Plug 'andweeb/presence.nvim'
 {{ end }}
 {{end }}
-" -------------------------------
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
@@ -39,14 +39,14 @@ Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
-Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'jacoborus/tender.vim'
 Plug 'morhetz/gruvbox'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate all'}
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
 Plug 'dikiaap/minimalist'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -62,9 +62,12 @@ Plug 'srcery-colors/srcery-vim'
 Plug 'rafalbromirski/vim-aurora'
 Plug 'ayu-theme/ayu-vim'
 Plug 'nickaroot/vim-xcode-dark-theme'
+Plug 'arzg/vim-colors-xcode'
 Plug 'shaunsingh/oxocarbon.nvim', { 'do': './install.sh' }
+Plug 'lambdalisue/suda.vim'
 call plug#end()
 let g:javascript_plugin_jsdoc = 1
+nnoremap <silent><S-t> :Telescope find_files<CR>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -84,11 +87,11 @@ syntax enable
 " let ayucolor="mirage"
 " colorscheme oxocarbon
 let g:catppuccin_flavour = "mocha"
-colorscheme catppuccin
+colorscheme xcodedark
 if (has("termguicolors"))
  set termguicolors
 endif
-
+let g:suda_smart_edit = 1
 " Some servers have issues with backup files, see #649.
 set nobackup
 set nowritebackup
